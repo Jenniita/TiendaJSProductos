@@ -1,0 +1,95 @@
+/* Root con variables que se van a repetir */
+
+:root {
+  --colorPrimario: rgb(224, 151, 151);
+  --colorSecundario: rgb(155, 205, 218);
+  --colorGris: rgb(223, 222, 222);
+  --colorBlanco: rgb(241, 241, 241);
+  --colorNegro: rgb(39, 39, 39);
+  --colorAcento: rgb(219, 236, 66);
+  --fuentePrimaria: "Oswald", sans-serif;
+  --fuenteSecundaria: "Inter", sans-serif;
+  --fuenteTerciaria: "Roboto", sans-serif;
+
+ 
+  }
+
+   /* Reseteo del MARGIN, PADDING y BOX-SIZING */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+
+  /* PROPIEDADES DEL HEADER */
+
+  header {
+    justify-content: space-around; /* separa el contenido*/
+    padding: 1rem;
+    align-items: center;
+    background-color: var(--colorSecundario);
+    position: sticky; /* Propiedad para dejar el header "pegado" en la parte de arriba*/
+    z-index: 1; /* Propiedad para darle profundidad a la posición sticky*/
+    top: 0px; /* Propiedad para marcar donde empieza la posición sticky del header*/
+  }
+
+  /* Propiedades del div del logo y el título de la página */
+  .logo {
+    align-items: center;
+    color: var(--colorNegro);
+  }
+
+  /* Propiedades individuales del titulo de la página que acompaña al logo */
+  .titulo {
+    font-family: var(--fuentePrimaria);
+    font-size: clamp(1.5rem, 4vw, 2rem);
+  }
+
+  .logo img {
+    width: 6rem;
+  }
+
+  /* PROPIEDADES GENERALES DE LOS UL */
+  ul {
+    list-style: none;
+    color: var(--colorNegro);
+    font-size: 1.1rem;
+  }
+
+  /* PROPIEDADES GENERALES DE LOS A */
+  a {
+    text-decoration: none;
+    color: var(--colorNegro);
+  }
+
+  .flex {
+    display: flex;
+    gap: 2rem;
+  }
+
+  footer {
+    background-color: var(--colorSecundario);
+    padding: 3rem;
+    display: flex;
+    justify-content: space-around;
+    color: var(--colorNegro);
+    align-items: center;
+    margin-top: 2rem;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .div-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 400px;
+  }
+
+  .div-footer a {
+    font-size: clamp(0.5rem, 4vw, 1rem);
+  }
+
+ 
+  
+}
