@@ -1,50 +1,59 @@
 
 let estado = "original"
 
-//Creamos todo lo que irá en el HTML
+
+
+//---------------------------------------------------------------------------------
+//Creamos las variables que irán en el HTML 
+
+//Main del HTML (puesto)
 const main = document.createElement("main");
 
-//Section de los productos
+//Section de los productos (puesto)
 const sectionProductos = document.createElement("section")
 sectionProductos.classList.add("section-productos")
 
-//Para buscar los productos
+//Input buscar los productos (puesto en el html) (falta programarlo)
 let input = document.createElement("input")
 
-//Array de botones para el filtrado 
+//Array de botones para el filtrado (puesto en el html) (falta programarlo)
 const botonesFiltrar = [
     { id: 1, nombre: "Móviles", visible: true },
     { id: 2, nombre: "Tablets", visible: true },
     { id: 3, nombre: "Portátiles", visible: true },
     { id: 4, nombre: "Ordenadores", visible: true },
+    { id: 5, nombre: "Todos", visible: true }
 ]
-//Div para los botones
+
+//Div para los botones (puesto)
 const contenedorBotones = document.createElement("div")
 contenedorBotones.classList.add("btn-contenedor")
 
-//El seleccionador de mayor a menor precio
+//El seleccionador de mayor a menor precio (puesto) (programado)
 let select = document.createElement("select")
-//Array de las opciones del select
+//Array de las opciones del select (programado)
 let opcionesSelect = [
     { id: 1, nombre: "Mayor a menor", visible: true },
     { id: 2, nombre: "Menor a mayor", visible: true },
     { id: 3, nombre: "Sin orden", visible: true }
 ]
 
-//H1 página
+//H1 página (puesto)
 const h1 = document.createElement("h1")
 
-//H2 de Productos
+//H2 de Productos (puesto)
 const h2 = document.createElement("h2")
 
-//section de las tarjetas
+//Section de las tarjetas (puesto)
 const contenedorTarjetas = document.createElement("section")
 contenedorTarjetas.classList.add("tarjetas-contenedor")
 
-//Carrito vacío en el que se irán metiendo los productos
+//Array carrito vacío en el que se irán metiendo los productos
 const carrito = [];
 
+//---------------------------------------------------------------------------------
 //Información tarjetas
+
 //Array con los productos de la tienda
 const productosTienda = [
     { id: 1, categoria: "móviles", descripcion: "Pantalla AMOLED de 6,1 pulgadas y cámara principal de 50 MP.", nombre: "Samsung Galaxy A55", precio: 399, imagen: "https://pycmovil.com/wp-content/uploads/elementor/thumbs/img_4366-rqp63vz0l6vlmpcb8m5ro5gdrn40ktqp2mwa8iby5c.jpeg" },
@@ -109,8 +118,10 @@ const productosTienda = [
     { id: 60, categoria: "ordenadores", descripcion: "Estación de trabajo con Intel Core i7 y tarjeta gráfica profesional.", nombre: "HP Z2 Tower G9", precio: 1699 },
 ]
 
+//---------------------------------------------------------------------------------
+//Agregamos las variables creadas al HTML
 
-//Y ahora seleccionamos el root del HTML
+//Seleccionamos el root del document
 const root = document.querySelector(".root")
 
 //Al root le metemos el main
@@ -122,43 +133,63 @@ h1.textContent = "Los mejores Móviles e Informática"
 
 //Al section de productos le agregamos el h2
 sectionProductos.appendChild(h2)
+//Agregamos texto al h2
 h2.textContent = "Productos"
 
-//Para nombrar a los botones, los recorremos con un foreach y luegos los añadiremos en el div
+//Para nombrar a los botones, los recorremos con un foreach y luegos los añadiremos en el div contenedor de los botones
 botonesFiltrar.forEach(nombreBotones => {
-    //creamos el boton
+    //creamos el boton en el documento, especificando la etiqueta, que será button
     const boton = document.createElement("button")
-    //le añadimos el nombre
+    //le añadimos el nombre, sacando del array de los botones el valor de la clave "nombre"
     boton.textContent = nombreBotones.nombre;
-    //Y lo añadimos al div
+    //Y lo añadimos al div contenedor para los botones
     contenedorBotones.appendChild(boton)
 })
 
 //Ponemos lo que tendrá el input
 input.placeholder = "Buscar producto..."
-
-//Añadimos el input
+//Añadimos el input al contenedor de los botones
 contenedorBotones.appendChild(input)
 
-//Ponemos las opciones del select recorriendolo con un foreach pq es un array
+//Para nombras las opciones del select, hacemos lo mismo que con los botones
 opcionesSelect.forEach(nombreOpcion => {
+    //creamos la opción en el documento
     const opcion = document.createElement("option")
+    //Le rellenamos el nombre con el valor de la clave nombre del array de las opciones del Selec que tenemos creado
     opcion.textContent = nombreOpcion.nombre;
+    //Añadimos las opciones al select
     select.appendChild(opcion)
+    //Y el select al contenedor de los botones, que tiene los botones, el input y ahora el select
     contenedorBotones.appendChild(select)
 })
 
+//Y ahora añadimos el div de botones al root
+main.appendChild(contenedorBotones)
+//Y al section de los productos le agregamos los botones
+sectionProductos.appendChild(contenedorBotones)
+//Y agregamos al main el section de los productos, ya con el h2, y los botones
+main.appendChild(sectionProductos)
+//Y le agregamos al section de productos el contenedor que tendrá las tarjetas
+sectionProductos.appendChild(contenedorTarjetas)
+
+
+//---------------------------------------------------------------------------------
+//FUNCIONES - RENDERIZADO
+
+//Función para ordenar segun las opciones del select
 function opcionesSelectRend() {
 
+    //Renderizamos el HTML vacío, para ir rellenando
     contenedorTarjetas.innerHTML = "";
-    //Botones
+
+    //OPCIONES DEL SELECT
 
     //variable que mostrará el array de productos en función al estado. De primeras el estado será el original, pues es el que está inicilizado al principio
     let visibles = [...productosTienda];
 
     //Orden Menor a Mayor
     if (estado === "asc") {
-        //Sort es un método inmutable, puesto que me devuelve otro array
+        //Sort es un método inmutable, puesto que me devuelve otro array, en este caso ordenados de menor a mayor
         visibles.sort((a, b) => a.precio - b.precio);
 
         //Orden Mayor a Menor
@@ -167,20 +198,34 @@ function opcionesSelectRend() {
         visibles.sort((a, b) => b.precio - a.precio);
     }
 
+    //Hacemos que la función de pintar, es decir, la que renderiza, renderice según la variable visibles que dará el array correspondiente de los productos
     pintar(visibles)
 }
 
+//Función para los botones por categoria
+function ordenarCategoria(categoria) {
+    let visibles;
 
+    if (categoria === "todos") {
+        visibles = productosTienda;
+    } else {
+        visibles = productosTienda.filter(producto => {
+            return producto.categoria === categoria;
+        });
+    }
+
+    pintar(visibles);
+}
+//Función para renderizar
 //Vamos a crear las tarjetas con una función que las vaya "pintando"
 function pintar(productos) {
-
 
     //Limpiamos el contenido que haya en el contenedor
     contenedorTarjetas.innerHTML = "";
 
     //Y ahora recorremos el array de los productos para hacer lar tarjetas
     productos.forEach(({ imagen, id, categoria, descripcion, nombre, precio }) => {
-        //Creamos las tarjetas individuales y le ponemos una clase
+        //Creamos las tarjetas individuales (un div) y le ponemos una clase
         const tarjeta = document.createElement("div")
         tarjeta.classList.add("tarjeta")
         //Y pintamos el html con los datos
@@ -199,26 +244,30 @@ function pintar(productos) {
 //Y ponemos la función en marcha
 pintar(productosTienda)
 
-//Y ahora añadimos el div de botones al root
-main.appendChild(contenedorBotones)
-//Y al section de los productos le agregamos los botones
-sectionProductos.appendChild(contenedorBotones)
-//Y agregamos al main el section de los productos, ya con el h2, y los botones
-main.appendChild(sectionProductos)
-//Y le agregamos al section de productos el contenedor que tendrá las tarjetas
-sectionProductos.appendChild(contenedorTarjetas)
 
+//---------------------------------------------------------------------------------
+//EVENT LISTENER DE LOS BOTONES, SELECT E INPUT
 //OPCIONES DEL SELECT
+
+//Cuando la opción del select cambie, según el estado, se ejecutará la función de opciones del select que hemos creado y ordenará de una forma u otra
 select.addEventListener("change", () => {
     if (select.value === opcionesSelect[0].nombre) {
         estado = "desc";
     } else if (select.value === opcionesSelect[1].nombre) {
         estado = "asc";
-    } else if (select.value === opcionesSelect[2].nombre){
+    } else if (select.value === opcionesSelect[2].nombre) {
         estado = "original"
     }
 
     opcionesSelectRend();
+});
+
+//BOTONES CATEGORIAS
+contenedorBotones.querySelectorAll("button").forEach(boton => {
+    boton.addEventListener("click", () => {
+        const categoria = boton.textContent.trim().toLowerCase();
+        ordenarCategoria(categoria);
+    });
 });
 
 
