@@ -144,6 +144,12 @@ botonesFiltrar.forEach(nombreBotones => {
     boton.textContent = nombreBotones.nombre;
     //Y lo añadimos al div contenedor para los botones
     contenedorBotones.appendChild(boton)
+
+    //EVENTO PARA LOS BOTONES
+    boton.addEventListener("click", () => {
+        //Le pasamos como parámetro el nombre del botón al que le estará haciendo click
+        ordenarCategoria(nombreBotones.nombre)
+    })
 })
 
 //Ponemos lo que tendrá el input
@@ -204,17 +210,24 @@ function opcionesSelectRend() {
 
 //Función para los botones por categoria
 function ordenarCategoria(categoria) {
-    let visibles;
 
-    if (categoria === "todos") {
-        visibles = productosTienda;
-    } else {
-        visibles = productosTienda.filter(producto => {
-            return producto.categoria === categoria;
-        });
+    let visibles = [...productosTienda];
+
+    if (categoria === "Móviles") {
+        visibles = productosTienda.filter(producto => producto.categoria === "móviles");
+    } else if (categoria === "Tablets") {
+        visibles = productosTienda.filter(producto => producto.categoria === "tablets");
+    } else if (categoria === "Portátiles") {
+        visibles = productosTienda.filter(producto => producto.categoria === "portátiles");
+    } else if (categoria === "Ordenadores") {
+        visibles = productosTienda.filter(producto => producto.categoria === "ordenadores");
+    } else if (categoria === "Todos") {
+        visibles = [...productosTienda];
     }
 
     pintar(visibles);
+
+
 }
 //Función para renderizar
 //Vamos a crear las tarjetas con una función que las vaya "pintando"
@@ -263,13 +276,9 @@ select.addEventListener("change", () => {
 });
 
 //BOTONES CATEGORIAS
-contenedorBotones.querySelectorAll("button").forEach(boton => {
-    boton.addEventListener("click", () => {
-        const categoria = boton.textContent.trim().toLowerCase();
-        ordenarCategoria(categoria);
-    });
-});
-
-
-
-
+botonesFiltrar.addEventListener("click", () => {
+    if (botonesFiltrar.nombre === "Móviles") {
+        estado = "movil"
+        ordenarCategoria()
+    }
+})
