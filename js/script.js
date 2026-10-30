@@ -276,9 +276,4 @@ select.addEventListener("change", () => {
 });
 
 //BOTONES CATEGORIAS
-botonesFiltrar.addEventListener("click", () => {
-    if (botonesFiltrar.nombre === "Móviles") {
-        estado = "movil"
-        ordenarCategoria()
-    }
-})
+

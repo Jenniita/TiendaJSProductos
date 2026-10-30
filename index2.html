@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="root">
+
+    </div>
+
+
+
+
+    <script>
+        const root = document.querySelector(".root")
+        const contenedorProductos = document.createElement("div")
+        contenedorProductos.classList.add("grid-cols-2")
+        root.appendChild(contenedorProductos)
+
+
+        const productos = [{ nombre: "movil", descripcion: "descripcion movil", categoria: "moviles", precio: 200 },
+        { nombre: "ordenador", descripcion: "descripcion ordenador", categoria: "ordenadores", precio: 600 },
+        { nombre: "Movil Samsung", descripcion: "descripcion ordenador", categoria: "moviles", precio: 700 },
+        { nombre: "Ordenador HP", descripcion: "descripcion ordenador", categoria: "ordenadores", precio: 900 },
+        { nombre: "Impresora", descripcion: "descripcion ordenador", categoria: "impresoras", precio: 900 },
+        { nombre: "Cascos", descripcion: "descripcion ordenador", categoria: "perifericos", precio: 900 },
+        ]
+
+        console.log(productos[1].precio)
+
+        
+
+        //filtrar por precio menor 400
+        function filtrar2() {
+            const productoFiltrado = productos.filter(({ precio }) => precio < 400);
+            console.log(productoFiltrado);
+            return productoFiltrado;
+        }
+
+        function pintar(productos) {
+            contenedorProductos.innerHTML = "";
+
+            productos.forEach(({ nombre, descripcion, precio, categoria }) => {
+                const tarjeta = document.createElement("div");
+                tarjeta.classList.add("tarjeta");
+
+                tarjeta.innerHTML = `
+                    <h3>${nombre}</h3>
+                    <p>${descripcion}</p>
+                    <p>${precio}</p>
+                    <p>${categoria}</p>
+                    `
+
+                contenedorProductos.appendChild(tarjeta)
+
+            });
+        }
+
+        pintar(productos)
+
+        const boton = document.createElement("button")
+        boton.textContent = "Filtrar"
+        boton.addEventListener("click", () => {
+            pintar(filtrar2())
+            root.appendChild(boton)
+        })
+
+        root.appendChild(boton)
+
+
+        //Input Filtrar por precio maximo
+
+        //Creamos el elemento input
+        const input = document.createElement("input")
+        //Le añadimos una clase
+        input.classList.add("inputFiltro")
+        //Texto que tiene el input
+        input.placeholder = "Precio máximo"
+        //Metemos el input en el root
+        root.appendChild(input)
+
+        //Creamos el event listener con el evento input
+        input.addEventListener("input", (e) => {
+            filtrarMax(e.target.value)
+        })
+
+        //La funcion para filtrar por valormaximo
+        function filtrarMax(maximo) {
+            const productoMaximo = productos.filter(({ precio }) => precio <= maximo);
+            pintar(productoMaximo)
+        }
+
+        //Input Filtrar por precio minimo
+
+        //Creamos el input
+        const inputMinimo = document.createElement("input")
+        //le añadimos una clase
+        inputMinimo.classList.add("inputMinimo")
+        //texto que tiene el input
+        inputMinimo.placeholder = "Precio mínimo"
+        root.appendChild(inputMinimo);
+
+        //funcion 
+        function filtrarMin(minimo) {
+            const productoMinimo = productos.filter(({ precio }) => precio >= minimo);
+            //renderizamos
+            pintar(productoMinimo)
+        }
+
+        //Evento
+        inputMinimo.addEventListener("input", (e) => {
+            filtrarMin(e.target.value)
+        })
+
+        //Input Filtrar por nombre
+
+        //Creamos el input
+        const inputNombre = document.createElement("input")
+        //le añadimos una clase
+        inputNombre.classList.add("inputNombre");
+        inputNombre.placeholder = "Nombre del producto"
+        root.appendChild(inputNombre)
+
+        //Funcion
+        function filtrarNombre(nombreP) {
+            //Hay que crear una constante que recogerá el texto que vamos a buscar
+            const texto = nombreP.trim().toLowerCase();
+            //Y luego filtramos viendo si el nombre incluye ese mismo texto
+            const nombreProducto = productos.filter(({ nombre }) => nombre.toLowerCase().includes(texto));
+            pintar(nombreProducto)
+        }
+
+        //evento
+        inputNombre.addEventListener("input", (e) => {
+            filtrarNombre(e.target.value)
+        })
+
+        //Botón Filtrar por categoria
+
+        //Creamos el primer botón
+        const botonC1 = document.createElement("button")
+        botonC1.classList.add("btn-categoria1")
+        botonC1.textContent = "Categoria Ordenadores"
+        root.appendChild(botonC1)
+
+        //segundo boton
+        const botonC2 = document.createElement("button");
+        botonC2.classList.add("btn-categoria2");
+        botonC2.textContent = "Categoria Moviles";
+        root.appendChild(botonC2);
+
+        //tercer boton
+        const botonC3 = document.createElement("button");
+        botonC3.classList.add("btn-categoria3");
+        botonC3.textContent = "Categoria Perifericos"
+        root.appendChild(botonC3)
+
+        //cuarto boton
+        const botonC4 = document.createElement("button");
+        botonC4.classList.add("btn-categoria4");
+        botonC4.textContent = "Categoria Impresoras";
+        root.appendChild(botonC4)
+
+        //boton para todos
+        const botonTodos = document.createElement("button");
+        botonTodos.classList.add("btn-todos");
+        botonTodos.textContent = "Todos";
+        root.appendChild(botonTodos)
+
+        //Estado de los productos de forma original
+        let estado = "original"
+
+        //funcion
+
+        function btnFiltrarCategoria() {
+            //variable que coge los objetos del array y vamos a cambiar de estado segun la categoria que se quiera
+            let visibles = [...productos];
+
+            //Si la categoria es "Categoria Ordenadores", que es el nombre del botón
+            if (estado === "ordenadores") {
+                //Filtramos por los productos cuya categoria sea ordenadores
+                visibles = productos.filter(({ categoria }) => categoria === "ordenadores")
+            } else if (estado === "moviles") {
+                visibles = productos.filter(({ categoria }) => categoria === "moviles")
+            } else if (estado === "perifericos") {
+                visibles = productos.filter(({ categoria }) => categoria === "perifericos")
+            } else if (estado === "impresoras") {
+                visibles = productos.filter(({ categoria }) => categoria === "impresoras")
+            } else if (estado === "original") {
+                visibles = [...productos];
+            }
+
+            //renderizamos el array que haya en visibles
+            pintar(visibles);
+        }
+
+        //evento
+        botonC1.addEventListener("click", () => {
+            estado = "ordenadores"
+            btnFiltrarCategoria();
+        })
+
+        botonC2.addEventListener("click", () => {
+            estado = "moviles"
+            btnFiltrarCategoria();
+        })
+
+        botonC3.addEventListener("click", () => {
+            estado = "perifericos"
+            btnFiltrarCategoria();
+        })
+
+        botonC4.addEventListener("click", () => {
+            estado = "impresoras"
+            btnFiltrarCategoria();
+        })
+
+        botonTodos.addEventListener("click", () => {
+            estado = "original"
+            btnFiltrarCategoria();
+        })
+
+
+
+
+        //creamos el input
+        const inputCategoria = document.createElement("input")
+        //le añadimos una clase
+        inputCategoria.classList.add("inputCategoria")
+        inputCategoria.placeholder = "Buscar Categoria"
+        root.appendChild(inputCategoria)
+
+        function filtrarCategoria(nombreC) {
+            const texto = nombreC.trim().toLowerCase();
+            const nombreCategoria = productos.filter(({ categoria }) => categoria.toLowerCase().includes(nombreC));
+            pintar(nombreCategoria)
+        }
+
+        inputCategoria.addEventListener("input", (e) => {
+            filtrarCategoria(e.target.value)
+        })
+
+
+
+
+    </script>
+
+</body>
+
+</html>
