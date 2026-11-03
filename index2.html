@@ -18,7 +18,22 @@
 
 
     <script>
-   
+        //Seleccionamos el root desde el documento
+        const root = document.querySelector(".root")
+
+        //Creamos un div que contendrá los botones de busqueda que queremos
+        const contenedorBotones = document.createElement("div")
+        //Clase para el div que contiene los botones. Margin Bottom de 1.25rem
+        contenedorBotones.classList.add("mb-6", "btn-group")
+        //Al root (el div) le añadimos el div que contiene los botones
+        root.appendChild(contenedorBotones)
+
+        //Creamos el div contenedor que contendrá las tarjetas
+        const contenedorProductos = document.createElement("div")
+        //Le aplicamos las clases grid y las columnas que queremos del grid
+        contenedorProductos.classList.add("grid", "grid-cols-4")
+        //Añadimos el div contenedor de las tarjetas al root
+        root.appendChild(contenedorProductos)
 
 
 
