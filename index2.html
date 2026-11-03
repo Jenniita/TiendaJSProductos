@@ -13,23 +13,17 @@
 </head>
 
 <body>
-    <div class="root bg-primary p-9">
+    <div class="root bg-primary p-9"></div>
 
-    </div>
 
 
     <script>
-        const root = document.querySelector(".root")
-        const contenedorBotones = document.createElement("div")
-        contenedorBotones.classList.add("mb-6")
-        root.appendChild(contenedorBotones)
-        const contenedorProductos = document.createElement("div")
-        contenedorProductos.classList.add("grid", "grid-cols-4")
-        root.appendChild(contenedorProductos)
+   
 
 
 
 
+        //Array de productos con sus claves y valores
         const productos = [{ imagen: "https://i.blogs.es/ded4a9/1366_2000/500_500.jpeg", nombre: "movil", descripcion: "descripcion movil", categoria: "moviles", precio: 200 },
         { imagen: "https://i.blogs.es/ded4a9/1366_2000/500_500.jpeg", nombre: "ordenador", descripcion: "descripcion ordenador", categoria: "ordenadores", precio: 600 },
         { imagen: "https://i.blogs.es/ded4a9/1366_2000/500_500.jpeg", nombre: "Movil Samsung", descripcion: "descripcion ordenador", categoria: "moviles", precio: 700 },
@@ -41,13 +35,13 @@
         console.log(productos[1].precio)
 
 
-
+        //Función para RENDERIZAR
         function pintar(productos) {
             contenedorProductos.innerHTML = "";
 
             productos.forEach(({ imagen, nombre, descripcion, precio, categoria }) => {
                 const tarjeta = document.createElement("div");
-                tarjeta.classList.add("card", "w-90");
+                tarjeta.classList.add("card", "w-90", "bg-success");
 
                 tarjeta.innerHTML = `
                    <img src="${imagen}" class="card-img-top " alt="${nombre}">
@@ -56,18 +50,27 @@
                     <p>${precio}</p>
                     <p>${categoria}</p>
                     </div>
+
+                    <section class="card" style="max-width: 320px">
+                        <img src="${imagen}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                        <h4 class="card-title">${nombre}</h4>
+                        <p class="card-text">${descripcion}</p>
+                         <a href="#" class="btn-solid theme-primary">Go somewhere</a>
+                        </div>
+                    </section>
                     
                     `
-
                 contenedorProductos.appendChild(tarjeta)
 
             });
         }
 
+        //Activamos la función para que renderice las tarjetas
         pintar(productos)
 
 
-        //Input Filtrar por precio maximo
+        //Input FILTRAR por precio MAXIMO
 
         //Creamos el elemento input
         const input = document.createElement("input")
@@ -75,21 +78,23 @@
         input.classList.add("inputFiltro")
         //Texto que tiene el input
         input.placeholder = "Precio máximo"
-        //Metemos el input en el root
+        //Metemos el input en el contenedor de botones
         contenedorBotones.appendChild(input)
 
         //La funcion para filtrar por valormaximo
         function filtrarMax(maximo) {
             const productoMaximo = productos.filter(({ precio }) => precio <= maximo);
+            //renderizamos
             pintar(productoMaximo)
+
         }
 
-        //Creamos el event listener con el evento input
+        //Creamos el Event listener con el evento input
         input.addEventListener("input", (e) => {
             filtrarMax(e.target.value)
         })
 
-        //Input Filtrar por precio minimo
+        //Input FILTRAR por precio MINIMO
 
         //Creamos el input
         const inputMinimo = document.createElement("input")
@@ -97,6 +102,7 @@
         inputMinimo.classList.add("inputMinimo")
         //texto que tiene el input
         inputMinimo.placeholder = "Precio mínimo"
+        //Añadimos el input al div contenedor de los botones
         contenedorBotones.appendChild(inputMinimo);
 
         //funcion 
@@ -111,7 +117,7 @@
             filtrarMin(e.target.value)
         })
 
-        //Input Filtrar por nombre
+        //Input FILTRAR por NOMBRE
 
         //Creamos el input
         const inputNombre = document.createElement("input")
@@ -122,29 +128,30 @@
 
         //Funcion
         function filtrarNombre(nombreP) {
-            //Hay que crear una constante que recogerá el texto que vamos a buscar
+            //Hay que crear una constante que recogerá el texto que vamos a buscar, quitando los espacios con trim
             const texto = nombreP.trim().toLowerCase();
             //Y luego filtramos viendo si el nombre incluye ese mismo texto
             const nombreProducto = productos.filter(({ nombre }) => nombre.toLowerCase().includes(texto));
+            //Renderizamos
             pintar(nombreProducto)
         }
 
-        //evento
+        //Evento
         inputNombre.addEventListener("input", (e) => {
             filtrarNombre(e.target.value)
         })
 
-        //Botón Filtrar por categoria
+        //BOTON FILTRAR por CATEGORIA
 
         //Creamos el primer botón
         const botonC1 = document.createElement("button")
-        botonC1.classList.add("btn-categoria1" ,"theme-danger", "btn-solid", "btn-styled")
+        botonC1.classList.add("btn-categoria1", "theme-danger", "btn-solid", "btn-styled")
         botonC1.textContent = "Categoria Ordenadores"
         contenedorBotones.appendChild(botonC1)
 
         //segundo boton
         const botonC2 = document.createElement("button");
-        botonC2.classList.add("btn-categoria2" ,"theme-danger", "btn-solid", "btn-styled");
+        botonC2.classList.add("btn-categoria2", "theme-danger", "btn-solid", "btn-styled");
         botonC2.textContent = "Categoria Moviles";
         contenedorBotones.appendChild(botonC2);
 
@@ -156,7 +163,7 @@
 
         //cuarto boton
         const botonC4 = document.createElement("button");
-        botonC4.classList.add("btn-categoria4" ,"theme-danger", "btn-solid", "btn-styled");
+        botonC4.classList.add("btn-categoria4", "theme-danger", "btn-solid", "btn-styled");
         botonC4.textContent = "Categoria Impresoras";
         contenedorBotones.appendChild(botonC4)
 
@@ -169,7 +176,7 @@
         //Estado de los productos de forma original
         let estado = "original"
 
-        //funcion
+        //funcion para filtrar por categoria
 
         function btnFiltrarCategoria() {
             //variable que coge los objetos del array y vamos a cambiar de estado segun la categoria que se quiera
@@ -193,7 +200,7 @@
             pintar(visibles);
         }
 
-        //evento
+        //eventos, en los que cambiamos el estado y luego renderizamos
         botonC1.addEventListener("click", () => {
             estado = "ordenadores"
             btnFiltrarCategoria();
@@ -217,26 +224,6 @@
         botonTodos.addEventListener("click", () => {
             estado = "original"
             btnFiltrarCategoria();
-        })
-
-
-
-
-        //creamos el input
-        const inputCategoria = document.createElement("input")
-        //le añadimos una clase
-        inputCategoria.classList.add("inputCategoria")
-        inputCategoria.placeholder = "Buscar Categoria"
-        contenedorBotones.appendChild(inputCategoria)
-
-        function filtrarCategoria(nombreC) {
-            const texto = nombreC.trim().toLowerCase();
-            const nombreCategoria = productos.filter(({ categoria }) => categoria.toLowerCase().includes(nombreC));
-            pintar(nombreCategoria)
-        }
-
-        inputCategoria.addEventListener("input", (e) => {
-            filtrarCategoria(e.target.value)
         })
 
 
