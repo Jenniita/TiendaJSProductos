@@ -13,51 +13,50 @@
 </head>
 
 <body>
-    <div class="root">
+    <div class="root bg-primary p-9">
 
     </div>
 
 
-
-
     <script>
         const root = document.querySelector(".root")
+        const contenedorBotones = document.createElement("div")
+        contenedorBotones.classList.add("mb-6")
+        root.appendChild(contenedorBotones)
         const contenedorProductos = document.createElement("div")
-        contenedorProductos.classList.add("grid-cols-2")
+        contenedorProductos.classList.add("grid", "grid-cols-4")
         root.appendChild(contenedorProductos)
 
 
-        const productos = [{ nombre: "movil", descripcion: "descripcion movil", categoria: "moviles", precio: 200 },
-        { nombre: "ordenador", descripcion: "descripcion ordenador", categoria: "ordenadores", precio: 600 },
-        { nombre: "Movil Samsung", descripcion: "descripcion ordenador", categoria: "moviles", precio: 700 },
-        { nombre: "Ordenador HP", descripcion: "descripcion ordenador", categoria: "ordenadores", precio: 900 },
-        { nombre: "Impresora", descripcion: "descripcion ordenador", categoria: "impresoras", precio: 900 },
-        { nombre: "Cascos", descripcion: "descripcion ordenador", categoria: "perifericos", precio: 900 },
+
+
+        const productos = [{ imagen: "https://i.blogs.es/ded4a9/1366_2000/500_500.jpeg", nombre: "movil", descripcion: "descripcion movil", categoria: "moviles", precio: 200 },
+        { imagen: "https://i.blogs.es/ded4a9/1366_2000/500_500.jpeg", nombre: "ordenador", descripcion: "descripcion ordenador", categoria: "ordenadores", precio: 600 },
+        { imagen: "https://i.blogs.es/ded4a9/1366_2000/500_500.jpeg", nombre: "Movil Samsung", descripcion: "descripcion ordenador", categoria: "moviles", precio: 700 },
+        { imagen: "https://i.blogs.es/ded4a9/1366_2000/500_500.jpeg", nombre: "Ordenador HP", descripcion: "descripcion ordenador", categoria: "ordenadores", precio: 900 },
+        { imagen: "https://i.blogs.es/ded4a9/1366_2000/500_500.jpeg", nombre: "Impresora", descripcion: "descripcion ordenador", categoria: "impresoras", precio: 900 },
+        { imagen: "https://i.blogs.es/ded4a9/1366_2000/500_500.jpeg", nombre: "Cascos", descripcion: "descripcion ordenador", categoria: "perifericos", precio: 900 },
         ]
 
         console.log(productos[1].precio)
 
-        
 
-        //filtrar por precio menor 400
-        function filtrar2() {
-            const productoFiltrado = productos.filter(({ precio }) => precio < 400);
-            console.log(productoFiltrado);
-            return productoFiltrado;
-        }
 
         function pintar(productos) {
             contenedorProductos.innerHTML = "";
 
-            productos.forEach(({ nombre, descripcion, precio, categoria }) => {
+            productos.forEach(({ imagen, nombre, descripcion, precio, categoria }) => {
                 const tarjeta = document.createElement("div");
-                tarjeta.classList.add("tarjeta");
+                tarjeta.classList.add("card", "w-90");
 
                 tarjeta.innerHTML = `
-                    <h3>${nombre}</h3>
-                    <p>${descripcion}</p>
+                   <img src="${imagen}" class="card-img-top " alt="${nombre}">
+                   <div class= "p-5"> <h3 class="card-title">${nombre}</h3>
+                    <p class="card-subtitle">${descripcion}</p>
                     <p>${precio}</p>
                     <p>${categoria}</p>
+                    </div>
+                    
                     `
 
                 contenedorProductos.appendChild(tarjeta)
@@ -66,15 +65,6 @@
         }
 
         pintar(productos)
-
-        const boton = document.createElement("button")
-        boton.textContent = "Filtrar"
-        boton.addEventListener("click", () => {
-            pintar(filtrar2())
-            root.appendChild(boton)
-        })
-
-        root.appendChild(boton)
 
 
         //Input Filtrar por precio maximo
@@ -86,18 +76,18 @@
         //Texto que tiene el input
         input.placeholder = "Precio máximo"
         //Metemos el input en el root
-        root.appendChild(input)
-
-        //Creamos el event listener con el evento input
-        input.addEventListener("input", (e) => {
-            filtrarMax(e.target.value)
-        })
+        contenedorBotones.appendChild(input)
 
         //La funcion para filtrar por valormaximo
         function filtrarMax(maximo) {
             const productoMaximo = productos.filter(({ precio }) => precio <= maximo);
             pintar(productoMaximo)
         }
+
+        //Creamos el event listener con el evento input
+        input.addEventListener("input", (e) => {
+            filtrarMax(e.target.value)
+        })
 
         //Input Filtrar por precio minimo
 
@@ -107,7 +97,7 @@
         inputMinimo.classList.add("inputMinimo")
         //texto que tiene el input
         inputMinimo.placeholder = "Precio mínimo"
-        root.appendChild(inputMinimo);
+        contenedorBotones.appendChild(inputMinimo);
 
         //funcion 
         function filtrarMin(minimo) {
@@ -128,7 +118,7 @@
         //le añadimos una clase
         inputNombre.classList.add("inputNombre");
         inputNombre.placeholder = "Nombre del producto"
-        root.appendChild(inputNombre)
+        contenedorBotones.appendChild(inputNombre)
 
         //Funcion
         function filtrarNombre(nombreP) {
@@ -148,33 +138,33 @@
 
         //Creamos el primer botón
         const botonC1 = document.createElement("button")
-        botonC1.classList.add("btn-categoria1")
+        botonC1.classList.add("btn-categoria1" ,"theme-danger", "btn-solid", "btn-styled")
         botonC1.textContent = "Categoria Ordenadores"
-        root.appendChild(botonC1)
+        contenedorBotones.appendChild(botonC1)
 
         //segundo boton
         const botonC2 = document.createElement("button");
-        botonC2.classList.add("btn-categoria2");
+        botonC2.classList.add("btn-categoria2" ,"theme-danger", "btn-solid", "btn-styled");
         botonC2.textContent = "Categoria Moviles";
-        root.appendChild(botonC2);
+        contenedorBotones.appendChild(botonC2);
 
         //tercer boton
         const botonC3 = document.createElement("button");
-        botonC3.classList.add("btn-categoria3");
+        botonC3.classList.add("btn-categoria3", "theme-danger", "btn-solid", "btn-styled");
         botonC3.textContent = "Categoria Perifericos"
-        root.appendChild(botonC3)
+        contenedorBotones.appendChild(botonC3)
 
         //cuarto boton
         const botonC4 = document.createElement("button");
-        botonC4.classList.add("btn-categoria4");
+        botonC4.classList.add("btn-categoria4" ,"theme-danger", "btn-solid", "btn-styled");
         botonC4.textContent = "Categoria Impresoras";
-        root.appendChild(botonC4)
+        contenedorBotones.appendChild(botonC4)
 
         //boton para todos
         const botonTodos = document.createElement("button");
-        botonTodos.classList.add("btn-todos");
+        botonTodos.classList.add("btn-todos", "theme-danger", "btn-solid", "btn-styled");
         botonTodos.textContent = "Todos";
-        root.appendChild(botonTodos)
+        contenedorBotones.appendChild(botonTodos)
 
         //Estado de los productos de forma original
         let estado = "original"
@@ -237,7 +227,7 @@
         //le añadimos una clase
         inputCategoria.classList.add("inputCategoria")
         inputCategoria.placeholder = "Buscar Categoria"
-        root.appendChild(inputCategoria)
+        contenedorBotones.appendChild(inputCategoria)
 
         function filtrarCategoria(nombreC) {
             const texto = nombreC.trim().toLowerCase();
